@@ -22,7 +22,7 @@ class Products extends StatelessWidget {
                         children: <Widget>[
                             FlatButton(
                                 child: Text('Details'),
-                                onPressed: () => {},
+                                onPressed: () => _navigateTo(index, context: context),
                             ),
                         ],
                     )
@@ -44,12 +44,10 @@ class Products extends StatelessWidget {
         return productCard;
     }
 
-    void _navigateTo(index, {final BuildContext context, final Widget page}) {
-        Navigator.push<bool>(
+    void _navigateTo(index, {final BuildContext context}) {
+        Navigator.pushNamed<bool>(
             context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => page,
-            ),
+            '/product/' + index.toString(),
         ).then((bool value) {
             if (value) deleteProduct(index);
         });
