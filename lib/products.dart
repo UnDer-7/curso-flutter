@@ -22,9 +22,7 @@ class Products extends StatelessWidget {
                         children: <Widget>[
                             FlatButton(
                                 child: Text('Details'),
-                                onPressed: () => _navigateTo(index, context: context, page: ProductPage(
-                                    products[index]['title'], products[index]['image'],
-                                ),),
+                                onPressed: () => {},
                             ),
                         ],
                     )
