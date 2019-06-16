@@ -34,7 +34,7 @@ class _ProductManagerState extends State<ProductManager> {
                     child: ProductCrontrol(_addProduct),
                 ),
                 Expanded(
-                    child: Products(_products),
+                    child: Products(_products, deleteProduct: _deleteProduct),
                 ),
             ],
         );
@@ -43,6 +43,12 @@ class _ProductManagerState extends State<ProductManager> {
     void _addProduct(Map<String, String> product) {
         setState(() {
             _products.add(product);
+        });
+    }
+
+    void _deleteProduct(int index) {
+        setState(() {
+          _products.removeAt(index);
         });
     }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class ProductPage extends StatelessWidget {
@@ -7,26 +9,34 @@ class ProductPage extends StatelessWidget {
     ProductPage(this.title, this.imageUrl);
 
     @override
-    Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-            title: Text(title),
-        ),
-        body: Column(
-            children: <Widget>[
-                Image.asset(imageUrl),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    child: Text(title),
+    Widget build(BuildContext context) =>
+        WillPopScope(
+            onWillPop: () {
+                print('back button pressed!');
+                Navigator.pop(context, false);
+                return Future<bool>.value(false);
+            },
+            child: Scaffold(
+                appBar: AppBar(
+                    title: Text(title),
                 ),
-                Container(
-                    padding: EdgeInsets.all(10),
-                    child: RaisedButton(
-                        color: Theme.of(context).accentColor,
-                        child: Text('BACK'),
-                        onPressed: () => Navigator.pop(context),
-                    ),
+                body: Column(
+                    children: <Widget>[
+                        Image.asset(imageUrl),
+                        Container(
+                            padding: EdgeInsets.all(10),
+                            child: Text(title),
+                        ),
+                        Container(
+                            padding: EdgeInsets.all(10),
+                            child: RaisedButton(
+                                color: Theme.of(context).accentColor,
+                                child: Text('DELETE'),
+                                onPressed: () => Navigator.pop(context, true),
+                            ),
+                        ),
+                    ],
                 ),
-            ],
-        ),
-    );
+            ),
+        );
 }
