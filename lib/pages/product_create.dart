@@ -20,47 +20,58 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
             margin: EdgeInsets.all(10),
             child: ListView(
                 children: <Widget>[
-                    TextField(
-                        decoration: InputDecoration(
-                            labelText: 'Product Title',
-                        ),
-                        onChanged: (String value) =>
-                            setState(() => _titleValue = value),
-                    ),
-                    TextField(
-                        decoration: InputDecoration(
-                            labelText: 'Product Description',
-                        ),
-                        maxLines: 4,
-                        onChanged: (String value) =>
-                            setState(() => _descriptionValue = value),
-                    ),
-                    TextField(
-                        decoration: InputDecoration(
-                            labelText: 'Product Price',
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (String value) =>
-                            setState(() => _priceValue = double.parse(value)),
-                    ),
+                    _buildTitleTextField(),
+                    _buildDescriptionTextField(),
+                    _buildPriceTextField(),
                     SizedBox(
                         height: 10,
                     ),
                     RaisedButton(
                         child: Text('Save'),
                         color: Theme.of(context).accentColor,
-                        onPressed: () {
-                            final Map<String, dynamic> product = {
-                                'title': _titleValue,
-                                'description': _descriptionValue,
-                                'price': _priceValue,
-                                'image': 'assets/food.jpg'
-                            };
-                            widget.addProduct(product);
-                            Navigator.pushReplacementNamed(context, '/products');
-                        },
+                        onPressed: _submitFomr,
                     )
                 ],
             ),
         );
+
+    TextField _buildTitleTextField() =>
+        TextField(
+            decoration: InputDecoration(
+                labelText: 'Product Title',
+            ),
+            onChanged: (String value) =>
+                setState(() => _titleValue = value),
+        );
+
+    TextField _buildDescriptionTextField() =>
+        TextField(
+            decoration: InputDecoration(
+                labelText: 'Product Description',
+            ),
+            maxLines: 4,
+            onChanged: (String value) =>
+                setState(() => _descriptionValue = value),
+        );
+
+    TextField _buildPriceTextField() =>
+        TextField(
+            decoration: InputDecoration(
+                labelText: 'Product Price',
+            ),
+            keyboardType: TextInputType.number,
+            onChanged: (String value) =>
+                setState(() => _priceValue = double.parse(value)),
+        );
+
+    void _submitFomr() {
+        final Map<String, dynamic> product = {
+            'title': _titleValue,
+            'description': _descriptionValue,
+            'price': _priceValue,
+            'image': 'assets/food.jpg'
+        };
+        widget.addProduct(product);
+        Navigator.pushReplacementNamed(context, '/products');
+    }
 }
