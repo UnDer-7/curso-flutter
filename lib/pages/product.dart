@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 class ProductPage extends StatelessWidget {
     final String title;
     final String imageUrl;
+    final double price;
+    final String description;
 
-    ProductPage(this.title, this.imageUrl);
+    ProductPage(this.title, this.imageUrl, this.price, this.description);
 
     @override
     Widget build(BuildContext context) =>
@@ -25,40 +27,54 @@ class ProductPage extends StatelessWidget {
                         Image.asset(imageUrl),
                         Container(
                             padding: EdgeInsets.all(10),
-                            child: Text(title),
+                            child: Text(
+                                title,
+                                style: TextStyle(
+                                    fontSize: 26,
+                                    fontFamily: 'Oswald',
+                                    fontWeight: FontWeight.bold,
+                                ),
+                            ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                                Text(
+                                    'Sobradinho II',
+                                    style: TextStyle(
+                                        fontFamily: 'Oswald',
+                                        color: Colors.grey,
+                                    ),
+                                ),
+                                Container(
+                                    child: Text(
+                                        '|',
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                        ),
+                                    ),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 5
+                                    ),
+                                ),
+                                Text(
+                                    '\$' + price.toString(),
+                                    style: TextStyle(
+                                        fontFamily: 'Oswald',
+                                        color: Colors.grey,
+                                    ),
+                                ),
+                            ],
                         ),
                         Container(
                             padding: EdgeInsets.all(10),
-                            child: RaisedButton(
-                                color: Theme.of(context).accentColor,
-                                child: Text('DELETE'),
-                                onPressed: () => _showWarningDialog(context),
+                            child: Text(
+                                description,
+                                textAlign: TextAlign.center,
                             ),
                         ),
                     ],
                 ),
             ),
         );
-
-    _showWarningDialog(BuildContext context){
-        showDialog(context: context, builder: (BuildContext context) {
-            return AlertDialog(
-                title: Text('Are you sure?'),
-                content: Text('This action cannot be undone!'),
-                actions: <Widget>[
-                    FlatButton(
-                        child: Text('CANCEL'),
-                        onPressed: () => Navigator.pop(context),
-                    ),
-                    FlatButton(
-                        child: Text('CONTINUE'),
-                        onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.pop(context, true);
-                        },
-                    )
-                ],
-            );
-        });
-    }
 }
