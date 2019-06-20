@@ -46,6 +46,20 @@ class Products extends StatelessWidget {
                             ],
                         ),
                     ),
+                    Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2.5,
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                                color: Colors.grey,
+                                width: 1,
+                            ),
+                        ),
+                        child: Text('Sobradinho II'),
+                    ),
                     ButtonBar(
                         alignment: MainAxisAlignment.center,
                         children: <Widget>[
