@@ -27,7 +27,22 @@ class Products extends StatelessWidget {
                                     ),
                                 ),
                                 SizedBox(width: 8),
-                                Text(products[index]['price'].toString()),
+                                Container(
+                                    child: Text(
+                                        '\$${products[index]['price'].toString()}',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                        ),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2.5,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).accentColor,
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                ),
                             ],
                         ),
                     ),
