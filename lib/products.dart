@@ -17,6 +17,11 @@ class Products extends StatelessWidget {
                         margin: EdgeInsets.all(10),
                         child: Text(
                             products[index]['title'],
+                            style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Oswald',
+                            ),
                         ),
                     ),
                     ButtonBar(
