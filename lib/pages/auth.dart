@@ -46,7 +46,7 @@ class _AuthPage extends State<AuthPage> {
                         onPressed: () {
                             print('E-Mail: $_emailValue');
                             print('Password: $_passwordValue');
-                            Navigator.pushReplacementNamed(context, '/');
+                            Navigator.pushReplacementNamed(context, '/products');
                         },
                     ),
                 ],
