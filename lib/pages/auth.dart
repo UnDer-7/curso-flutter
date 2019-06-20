@@ -1,19 +1,50 @@
 import 'package:flutter/material.dart';
 
-import './products.dart';
+class AuthPage extends StatefulWidget {
+    @override
+    State<StatefulWidget> createState() => _AuthPage();
+}
 
-class AuthPage extends StatelessWidget {
+class _AuthPage extends State<AuthPage> {
+    String _emailValue;
+    String _passwordValue;
+
+
     @override
     Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
             title: Text('LOGIN'),
         ),
-        body: Center(
-            child: RaisedButton(
-                child: Text('LOGIN'),
-                onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/');
-                },
+        body: Container(
+            margin: EdgeInsets.all(10),
+            child: ListView(
+                children: <Widget>[
+                    TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: (String value) => setState(() => _emailValue = value),
+                        decoration: InputDecoration(
+                            labelText: 'E-Mail',
+                        ),
+                    ),
+                    TextField(
+                        obscureText: true,
+                        onChanged: (String value) => setState(() => _passwordValue = value),
+                        decoration: InputDecoration(
+                            labelText: 'Password',
+                        ),
+                    ),
+                    SizedBox(height: 10),
+                    RaisedButton(
+                        color: Theme.of(context).primaryColor,
+                        textColor: Colors.white,
+                        child: Text('LOGIN'),
+                        onPressed: () {
+                            print('E-Mail: $_emailValue');
+                            print('Password: $_passwordValue');
+                            Navigator.pushReplacementNamed(context, '/');
+                        },
+                    ),
+                ],
             ),
         ),
     );
