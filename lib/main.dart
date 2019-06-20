@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
 //        debugShowMaterialGrid: true,
         theme: ThemeData(
             primarySwatch: Colors.deepOrange,
-            accentColor: Colors.deepPurple,
+            accentColor: Colors.orange,
         ),
 //        home: AuthPage(),
         routes: {
