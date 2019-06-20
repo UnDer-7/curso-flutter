@@ -14,7 +14,7 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
     Widget build(BuildContext context) =>
         Container(
             margin: EdgeInsets.all(10),
-            child: Column(
+            child: ListView(
                 children: <Widget>[
                     TextField(
                         decoration: InputDecoration(
@@ -39,6 +39,10 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
                         onChanged: (String value) =>
                             setState(() => priceValue = double.parse(value)),
                     ),
+                    RaisedButton(
+                        child: Text('Save'),
+                        onPressed: () {},
+                    )
                 ],
             ),
         );
