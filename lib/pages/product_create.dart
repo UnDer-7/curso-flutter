@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
 
-class ProductCreatePage extends StatelessWidget {
+class ProductCreatePage extends StatefulWidget {
     @override
-    Widget build(BuildContext context) => Center(
-        child: RaisedButton(
-            child: Text('Save'),
-            onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                        return Center(
-                            child: Text('This is a Modal'),
-                        );
-                    });
-            },
-        ),
-    );
+    State<StatefulWidget> createState() => _ProductCreatePageState();
+}
+
+class _ProductCreatePageState extends State<ProductCreatePage>{
+    String titleValue;
+    String descriptionValue;
+    double priceValue;
+
+    @override
+    Widget build(BuildContext context) =>
+        Column(
+            children: <Widget>[
+                TextField(
+                    onChanged: (String value) =>
+                        setState(() => titleValue = value),
+                ),
+                TextField(
+                    maxLines: 4,
+                    onChanged: (String value) =>
+                        setState(() => descriptionValue = value),
+                ),
+                TextField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (String value) =>
+                        setState(() => priceValue = double.parse(value)),
+                ),
+            ],
+        );
 }
