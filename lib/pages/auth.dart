@@ -11,36 +11,45 @@ class _AuthPage extends State<AuthPage> {
     bool _acceptTerms = false;
 
     @override
-    Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-            title: Text('LOGIN'),
-        ),
-        body: Container(
-            decoration: BoxDecoration(
-                image: _buildBackgroundImage(),
+    Widget build(BuildContext context) {
+        final double targetWidth = _setTargetWith(context);
+
+        return Scaffold(
+            appBar: AppBar(
+                title: Text('LOGIN'),
             ),
-            padding: EdgeInsets.all(10),
-            child: Center(
-                child: SingleChildScrollView(
-                    child: Column(
-                        children: <Widget>[
-                            _buildEmailTextField(),
-                            SizedBox(height: 10),
-                            _buildPasswordTextField(),
-                            SizedBox(height: 10),
-                            _buildAcceptSwitch(),
-                            RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                textColor: Colors.white,
-                                child: Text('LOGIN'),
-                                onPressed: _submitForm,
+            body: Container(
+                decoration: BoxDecoration(
+                    image: _buildBackgroundImage(),
+                ),
+                padding: EdgeInsets.all(10),
+                child: Center(
+                    child: SingleChildScrollView(
+                        child: Container(
+                            width: targetWidth,
+                            child: Column(
+                                children: <Widget>[
+                                    _buildEmailTextField(),
+                                    SizedBox(height: 10),
+                                    _buildPasswordTextField(),
+                                    SizedBox(height: 10),
+                                    _buildAcceptSwitch(),
+                                    RaisedButton(
+                                        color: Theme
+                                            .of(context)
+                                            .primaryColor,
+                                        textColor: Colors.white,
+                                        child: Text('LOGIN'),
+                                        onPressed: _submitForm,
+                                    ),
+                                ],
                             ),
-                        ],
+                        ),
                     ),
                 ),
             ),
-        ),
-    );
+        );
+    }
 
     DecorationImage _buildBackgroundImage() =>
         DecorationImage(
@@ -83,4 +92,15 @@ class _AuthPage extends State<AuthPage> {
         print('Password: $_passwordValue');
         Navigator.pushReplacementNamed(context, '/products');
     }
+
+    double _setTargetWith(BuildContext context) {
+        final double deviceWidth = MediaQuery.of(context).size.width;
+
+        if (deviceWidth > 768.0) {
+            return 500.0;
+        } else{
+            return deviceWidth * 0.95;
+        }
+    }
 }
+
