@@ -15,10 +15,15 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
     double _priceValue;
 
     @override
-    Widget build(BuildContext context) =>
-        Container(
+    Widget build(BuildContext context) {
+        final double deviceWidth = MediaQuery.of(context).size.width;
+        final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
+        final double targetPadding = deviceWidth - targetWidth;
+        return Container(
+            width: targetWidth,
             margin: EdgeInsets.all(10),
             child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
                 children: <Widget>[
                     _buildTitleTextField(),
                     _buildDescriptionTextField(),
@@ -28,12 +33,15 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
                     ),
                     RaisedButton(
                         child: Text('Save'),
-                        color: Theme.of(context).accentColor,
+                        color: Theme
+                            .of(context)
+                            .accentColor,
                         onPressed: _submitFomr,
                     )
                 ],
             ),
         );
+    }
 
     TextField _buildTitleTextField() =>
         TextField(
