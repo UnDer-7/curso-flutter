@@ -30,36 +30,7 @@ class ProductPage extends StatelessWidget {
                             padding: EdgeInsets.all(10),
                             child: TitleDefault(title),
                         ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                                Text(
-                                    'Sobradinho II',
-                                    style: TextStyle(
-                                        fontFamily: 'Oswald',
-                                        color: Colors.grey,
-                                    ),
-                                ),
-                                Container(
-                                    child: Text(
-                                        '|',
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                        ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 5
-                                    ),
-                                ),
-                                Text(
-                                    '\$' + price.toString(),
-                                    style: TextStyle(
-                                        fontFamily: 'Oswald',
-                                        color: Colors.grey,
-                                    ),
-                                ),
-                            ],
-                        ),
+                        _buildAddressPriceRow(),
                         Container(
                             padding: EdgeInsets.all(10),
                             child: Text(
@@ -70,5 +41,37 @@ class ProductPage extends StatelessWidget {
                     ],
                 ),
             ),
+        );
+
+    Row _buildAddressPriceRow() =>
+        Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                Text(
+                    'Sobradinho II',
+                    style: TextStyle(
+                        fontFamily: 'Oswald',
+                        color: Colors.grey,
+                    ),
+                ),
+                Container(
+                    child: Text(
+                        '|',
+                        style: TextStyle(
+                            color: Colors.grey,
+                        ),
+                    ),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: 5
+                    ),
+                ),
+                Text(
+                    '\$' + price.toString(),
+                    style: TextStyle(
+                        fontFamily: 'Oswald',
+                        color: Colors.grey,
+                    ),
+                ),
+            ],
         );
 }

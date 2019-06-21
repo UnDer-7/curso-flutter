@@ -17,51 +17,23 @@ class _AuthPage extends State<AuthPage> {
         ),
         body: Container(
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
-                    image: AssetImage('assets/background.jpg'),
-                ),
+                image: _buildBackgroundImage(),
             ),
             padding: EdgeInsets.all(10),
             child: Center(
                 child: SingleChildScrollView(
                     child: Column(
                         children: <Widget>[
-                            TextField(
-                                keyboardType: TextInputType.emailAddress,
-                                onChanged: (String value) => setState(() => _emailValue = value),
-                                decoration: InputDecoration(
-                                    labelText: 'E-Mail',
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                ),
-                            ),
+                            _buildEmailTextField(),
                             SizedBox(height: 10),
-                            TextField(
-                                obscureText: true,
-                                onChanged: (String value) => setState(() => _passwordValue = value),
-                                decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                ),
-                            ),
+                            _buildPasswordTextField(),
                             SizedBox(height: 10),
-                            SwitchListTile(
-                                title: Text('Acept Terms'),
-                                value: _acceptTerms,
-                                onChanged: (bool value) => setState(() => _acceptTerms = value),
-                            ),
+                            _buildAcceptSwitch(),
                             RaisedButton(
                                 color: Theme.of(context).primaryColor,
                                 textColor: Colors.white,
                                 child: Text('LOGIN'),
-                                onPressed: () {
-                                    print('E-Mail: $_emailValue');
-                                    print('Password: $_passwordValue');
-                                    Navigator.pushReplacementNamed(context, '/products');
-                                },
+                                onPressed: _submitForm,
                             ),
                         ],
                     ),
@@ -69,4 +41,46 @@ class _AuthPage extends State<AuthPage> {
             ),
         ),
     );
+
+    DecorationImage _buildBackgroundImage() =>
+        DecorationImage(
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+            image: AssetImage('assets/background.jpg'),
+        );
+
+    TextField _buildEmailTextField() =>
+        TextField(
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (String value) => setState(() => _emailValue = value),
+            decoration: InputDecoration(
+                labelText: 'E-Mail',
+                filled: true,
+                fillColor: Colors.white,
+            ),
+        );
+
+    TextField _buildPasswordTextField() =>
+        TextField(
+            obscureText: true,
+            onChanged: (String value) => setState(() => _passwordValue = value),
+            decoration: InputDecoration(
+                labelText: 'Password',
+                filled: true,
+                fillColor: Colors.white,
+            ),
+        );
+
+    SwitchListTile _buildAcceptSwitch() =>
+        SwitchListTile(
+            title: Text('Acept Terms'),
+            value: _acceptTerms,
+            onChanged: (bool value) => setState(() => _acceptTerms = value),
+        );
+
+    void _submitForm() {
+        print('E-Mail: $_emailValue');
+        print('Password: $_passwordValue');
+        Navigator.pushReplacementNamed(context, '/products');
+    }
 }

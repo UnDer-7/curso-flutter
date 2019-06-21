@@ -9,7 +9,21 @@ class ProductsPage extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) => Scaffold(
-        drawer: Drawer(
+        drawer: _buildSideDrawer(context),
+        appBar: AppBar(
+            title: Text('EasyList'),
+            actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.favorite),
+                    onPressed: () {},
+                ),
+            ],
+        ),
+        body: Products(products),
+    );
+
+    Drawer _buildSideDrawer(BuildContext context) =>
+        Drawer(
             child: Column(
                 children: <Widget>[
                     AppBar(
@@ -25,16 +39,5 @@ class ProductsPage extends StatelessWidget {
                     ),
                 ],
             ),
-        ),
-        appBar: AppBar(
-            title: Text('EasyList'),
-            actions: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.favorite),
-                    onPressed: () {},
-                ),
-            ],
-        ),
-        body: Products(products),
-    );
+        );
 }
