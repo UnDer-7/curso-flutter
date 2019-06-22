@@ -10,9 +10,12 @@ class ProductCreatePage extends StatefulWidget {
 }
 
 class _ProductCreatePageState extends State<ProductCreatePage>{
-    String _titleValue;
-    String _descriptionValue;
-    double _priceValue;
+    final Map<String, dynamic> _formData = {
+        'title': null,
+        'description': null,
+        'price': null,
+        'image': 'assets/food.jpg',
+    };
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     @override
@@ -61,7 +64,7 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
                 if (value.isEmpty) return 'Title is required';
                 if (value.length < 5) return 'Title should be 5+ characters long';
             },
-            onSaved: (String value) => setState(() => _titleValue = value),
+            onSaved: (String value) => _formData['title'] = value,
         );
 
     TextFormField _buildDescriptionTextField() =>
@@ -70,7 +73,7 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
                 labelText: 'Product Description',
             ),
             maxLines: 4,
-            onSaved: (String value) => setState(() => _descriptionValue = value),
+            onSaved: (String value) => _formData['description'] = value,
             validator: (String input) {
                 final String value = input.trim();
 
@@ -85,7 +88,7 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
                 labelText: 'Product Price',
             ),
             keyboardType: TextInputType.number,
-            onSaved: (String value) => setState(() => _priceValue = double.parse(value)),
+            onSaved: (String value) => _formData['price'] = double.parse(value),
             validator: (String input) {
                 final String value = input.trim();
 
@@ -97,13 +100,8 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
     void _submitForm() {
         if (!_formKey.currentState.validate()) return;
         _formKey.currentState.save();
-        final Map<String, dynamic> product = {
-            'title': _titleValue,
-            'description': _descriptionValue,
-            'price': _priceValue,
-            'image': 'assets/food.jpg'
-        };
-        widget.addProduct(product);
+
+        widget.addProduct(_formData);
         Navigator.pushReplacementNamed(context, '/products');
     }
 }
