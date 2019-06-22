@@ -25,8 +25,7 @@ class _ProductEditPageState extends State<ProductEditPage>{
         final double deviceWidth = MediaQuery.of(context).size.width;
         final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
         final double targetPadding = deviceWidth - targetWidth;
-
-        return GestureDetector(
+        final Widget pageContent = GestureDetector(
             onTap: () {
                 FocusScope.of(context).requestFocus(FocusNode());
             },
@@ -53,10 +52,19 @@ class _ProductEditPageState extends State<ProductEditPage>{
                 ),
             ),
         );
+
+        return widget.product == null ? pageContent :  Scaffold(
+            appBar: AppBar(
+                title: Text('Edit Product'),
+            ),
+            body: pageContent,
+        );
     }
 
     TextFormField _buildTitleTextField() =>
         TextFormField(
+            initialValue: widget.product == null ? '' : widget.product['title'],
+            onSaved: (String value) => _formData['title'] = value,
             decoration: InputDecoration(
                 labelText: 'Product Title',
             ),
@@ -66,16 +74,16 @@ class _ProductEditPageState extends State<ProductEditPage>{
                 if (value.isEmpty) return 'Title is required';
                 if (value.length < 5) return 'Title should be 5+ characters long';
             },
-            onSaved: (String value) => _formData['title'] = value,
         );
 
     TextFormField _buildDescriptionTextField() =>
         TextFormField(
+            initialValue: widget.product == null ? '' : widget.product['description'],
+            maxLines: 4,
+            onSaved: (String value) => _formData['description'] = value,
             decoration: InputDecoration(
                 labelText: 'Product Description',
             ),
-            maxLines: 4,
-            onSaved: (String value) => _formData['description'] = value,
             validator: (String input) {
                 final String value = input.trim();
 
@@ -86,11 +94,12 @@ class _ProductEditPageState extends State<ProductEditPage>{
 
     TextFormField _buildPriceTextField() =>
         TextFormField(
+            initialValue: widget.product == null ? '' : widget.product['price'].toString(),
+            keyboardType: TextInputType.number,
+            onSaved: (String value) => _formData['price'] = double.parse(value),
             decoration: InputDecoration(
                 labelText: 'Product Price',
             ),
-            keyboardType: TextInputType.number,
-            onSaved: (String value) => _formData['price'] = double.parse(value),
             validator: (String input) {
                 final String value = input.trim();
 
