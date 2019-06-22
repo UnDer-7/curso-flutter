@@ -20,25 +20,31 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
         final double deviceWidth = MediaQuery.of(context).size.width;
         final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
         final double targetPadding = deviceWidth - targetWidth;
-        return Container(
-            width: targetWidth,
-            margin: EdgeInsets.all(10),
-            child: Form(
-                key: _formKey,
-                child:ListView(
-                    padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
-                    children: <Widget>[
-                        _buildTitleTextField(),
-                        _buildDescriptionTextField(),
-                        _buildPriceTextField(),
-                        SizedBox(
-                            height: 10,
-                        ),
-                        RaisedButton(
-                            child: Text('Save'),
-                            onPressed: _submitForm,
-                        )
-                    ],
+
+        return GestureDetector(
+            onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Container(
+                width: targetWidth,
+                margin: EdgeInsets.all(10),
+                child: Form(
+                    key: _formKey,
+                    child:ListView(
+                        padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
+                        children: <Widget>[
+                            _buildTitleTextField(),
+                            _buildDescriptionTextField(),
+                            _buildPriceTextField(),
+                            SizedBox(
+                                height: 10,
+                            ),
+                            RaisedButton(
+                                child: Text('Save'),
+                                onPressed: _submitForm,
+                            )
+                        ],
+                    ),
                 ),
             ),
         );
@@ -53,6 +59,7 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
                 final String value = input.trim();
 
                 if (value.isEmpty) return 'Title is required';
+                if (value.length < 5) return 'Title should be 5+ characters long';
             },
             onSaved: (String value) => setState(() => _titleValue = value),
         );
@@ -64,6 +71,12 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
             ),
             maxLines: 4,
             onSaved: (String value) => setState(() => _descriptionValue = value),
+            validator: (String input) {
+                final String value = input.trim();
+
+                if (value.isEmpty) return 'Description is required';
+                if (value.length < 5) return 'Description should be 5+ characters long';
+            },
         );
 
     TextFormField _buildPriceTextField() =>
@@ -73,6 +86,12 @@ class _ProductCreatePageState extends State<ProductCreatePage>{
             ),
             keyboardType: TextInputType.number,
             onSaved: (String value) => setState(() => _priceValue = double.parse(value)),
+            validator: (String input) {
+                final String value = input.trim();
+
+                if (value.isEmpty) return 'Description is required';
+                if (!RegExp(r'^(?:[1-9]\d*|0)?(?:\.\d+)?$').hasMatch(value)) return 'Price should be a number';
+            },
         );
 
     void _submitForm() {
