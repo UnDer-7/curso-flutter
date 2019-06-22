@@ -6,9 +6,13 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPage extends State<AuthPage> {
-    String _emailValue;
-    String _passwordValue;
-    bool _acceptTerms = false;
+    final Map<String, dynamic> _formData = {
+        'email': null,
+        'password': null,
+        'acceptTerms': false,
+    };
+
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     @override
     Widget build(BuildContext context) {
@@ -27,19 +31,22 @@ class _AuthPage extends State<AuthPage> {
                     child: SingleChildScrollView(
                         child: Container(
                             width: targetWidth,
-                            child: Column(
-                                children: <Widget>[
-                                    _buildEmailTextField(),
-                                    SizedBox(height: 10),
-                                    _buildPasswordTextField(),
-                                    SizedBox(height: 10),
-                                    _buildAcceptSwitch(),
-                                    RaisedButton(
-                                        textColor: Colors.white,
-                                        child: Text('LOGIN'),
-                                        onPressed: _submitForm,
-                                    ),
-                                ],
+                            child: Form(
+                                key: _formKey,
+                                child: Column(
+                                    children: <Widget>[
+                                        _buildEmailTextField(),
+                                        SizedBox(height: 10),
+                                        _buildPasswordTextField(),
+                                        SizedBox(height: 10),
+                                        _buildAcceptSwitch(),
+                                        RaisedButton(
+                                            textColor: Colors.white,
+                                            child: Text('LOGIN'),
+                                            onPressed: _submitForm,
+                                        ),
+                                    ],
+                                ),
                             ),
                         ),
                     ),
@@ -55,10 +62,16 @@ class _AuthPage extends State<AuthPage> {
             image: AssetImage('assets/background.jpg'),
         );
 
-    TextField _buildEmailTextField() =>
-        TextField(
+    TextFormField _buildEmailTextField() =>
+        TextFormField(
             keyboardType: TextInputType.emailAddress,
-            onChanged: (String value) => setState(() => _emailValue = value),
+            onSaved: (String value) => _formData['email'] = value,
+            validator: (String value) {
+                if (value.isEmpty) return 'E-Mail is required';
+                if (RegExp(
+                    r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                ).hasMatch(value)) return 'Plese enter a valid E-Mail';
+            },
             decoration: InputDecoration(
                 labelText: 'E-Mail',
                 filled: true,
@@ -66,10 +79,14 @@ class _AuthPage extends State<AuthPage> {
             ),
         );
 
-    TextField _buildPasswordTextField() =>
-        TextField(
+    TextFormField _buildPasswordTextField() =>
+        TextFormField(
             obscureText: true,
-            onChanged: (String value) => setState(() => _passwordValue = value),
+            onSaved: (String value) => _formData['password'] = value,
+            validator: (String input) {
+                if (input.isEmpty) return 'Password is required';
+                if (input.length < 6) return 'Password invalid';
+            },
             decoration: InputDecoration(
                 labelText: 'Password',
                 filled: true,
@@ -80,13 +97,16 @@ class _AuthPage extends State<AuthPage> {
     SwitchListTile _buildAcceptSwitch() =>
         SwitchListTile(
             title: Text('Acept Terms'),
-            value: _acceptTerms,
-            onChanged: (bool value) => setState(() => _acceptTerms = value),
+            value: _formData['acceptTerms'],
+            onChanged: (bool value) => _formData['acceptTerms'] = value,
         );
 
     void _submitForm() {
-        print('E-Mail: $_emailValue');
-        print('Password: $_passwordValue');
+//        if (!_formKey.currentState.validate() || !_formData['acceptTerms']) return;
+
+        _formKey.currentState.save();
+
+        print('Form Data: $_formData');
         Navigator.pushReplacementNamed(context, '/products');
     }
 
