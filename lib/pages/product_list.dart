@@ -32,23 +32,26 @@ class ProductListPage extends StatelessWidget {
                                 ),
                                 title: Text(products[index]['title']),
                                 subtitle: Text('\$${products[index]['price'].toString()}'),
-                                trailing: IconButton(
-                                    icon: Icon(Icons.edit),
-                                    onPressed: () {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (BuildContext context) => ProductEditPage(
-                                                product: products[index],
-                                                updateProduct: updateProduct,
-                                                productIndex: index,
-                                            ),
-                                        ));
-                                    },
-                                ),
+                                trailing: _buildEditButton(context, index),
                             ),
                             Divider(),
                         ],
                     ),
                 );
+            },
+        );
+
+    IconButton _buildEditButton(BuildContext context, int index) =>
+        IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => ProductEditPage(
+                        product: products[index],
+                        updateProduct: updateProduct,
+                        productIndex: index,
+                    ),
+                ));
             },
         );
 }
