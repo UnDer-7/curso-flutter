@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+
 import './product_card.dart';
 import '../../models/product.dart';
+import '../../scoped_model/products.dart';
 
 class Products extends StatelessWidget {
-    final List<Product> products;
-
-    Products(this.products);
-
     @override
-    Widget build(BuildContext context) => _buildProductList();
+    ScopedModelDescendant build(BuildContext context) {
+        return ScopedModelDescendant<ProductsModel>(
+            builder: (BuildContext context, Widget child, ProductsModel model) {
+                return _buildProductList(model.products);
+            }
+        );
+    }
 
 
-    Widget _buildProductList() {
+    Widget _buildProductList(List<Product> products) {
         Widget productCard = Center(child: Text('No Products found!'));
 
         if (products.length > 0) {
