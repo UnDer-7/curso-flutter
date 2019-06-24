@@ -4,16 +4,9 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../widgets/helpers/ensure-visible.dart';
 import '../models/product.dart';
-import '../scoped_model/products.dart';
+import '../scoped-model/products.dart';
 
 class ProductEditPage extends StatefulWidget {
-    final Function addProduct;
-    final Function updateProduct;
-    final int productIndex;
-    final Product product;
-
-    ProductEditPage({this.addProduct, this.updateProduct, this.product, this.productIndex});
-
     @override
     State<StatefulWidget> createState() => _ProductEditPageState();
 }
@@ -31,18 +24,23 @@ class _ProductEditPageState extends State<ProductEditPage>{
     final FocusNode _priceFocusNode = FocusNode();
 
     @override
-    Widget build(BuildContext context) {
-        final Widget pageContent = _buildPageContent(context);
+    ScopedModelDescendant build(BuildContext context) {
 
-        return widget.product == null ? pageContent :  Scaffold(
-            appBar: AppBar(
-                title: Text('Edit Product'),
-            ),
-            body: pageContent,
+        return ScopedModelDescendant<ProductsModel>(
+            builder: (BuildContext context, Widget child, ProductsModel model) {
+                final Widget pageContent = _buildPageContent(context, model.getSelectProduct);
+
+                return model.getSelectProductIndex == null ? pageContent :  Scaffold(
+                    appBar: AppBar(
+                        title: Text('Edit Product'),
+                    ),
+                    body: pageContent,
+                );
+            },
         );
     }
 
-    GestureDetector _buildPageContent(BuildContext context) {
+    GestureDetector _buildPageContent(BuildContext context, Product product) {
         final double deviceWidth = MediaQuery.of(context).size.width;
         final double targetWidth = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
         final double targetPadding = deviceWidth - targetWidth;
@@ -60,9 +58,9 @@ class _ProductEditPageState extends State<ProductEditPage>{
                         padding: EdgeInsets.symmetric(
                             horizontal: targetPadding / 2),
                         children: <Widget>[
-                            _buildTitleTextField(),
-                            _buildDescriptionTextField(),
-                            _buildPriceTextField(),
+                            _buildTitleTextField(product),
+                            _buildDescriptionTextField(product),
+                            _buildPriceTextField(product),
                             SizedBox(
                                 height: 10,
                             ),
@@ -79,18 +77,18 @@ class _ProductEditPageState extends State<ProductEditPage>{
             builder: (BuildContext context, Widget child, ProductsModel model) {
                 return RaisedButton(
                     child: Text('Save'),
-                    onPressed: () => _submitForm(model.addProduct, model.updateProduct),
+                    onPressed: () => _submitForm(model.addProduct, model.updateProduct, model.getSelectProductIndex),
                 );
             },
         );
     }
 
-    EnsureVisibleWhenFocused _buildTitleTextField() =>
+    EnsureVisibleWhenFocused _buildTitleTextField(Product product) =>
         EnsureVisibleWhenFocused(
             focusNode: _titleFocusNode,
             child: TextFormField(
                 focusNode: _titleFocusNode,
-                initialValue: widget.product == null ? '' : widget.product.title,
+                initialValue: product == null ? '' : product.title,
                 onSaved: (String value) => _formData['title'] = value,
                 decoration: InputDecoration(
                     labelText: 'Product Title',
@@ -104,12 +102,12 @@ class _ProductEditPageState extends State<ProductEditPage>{
             ),
         );
 
-    EnsureVisibleWhenFocused _buildDescriptionTextField() =>
+    EnsureVisibleWhenFocused _buildDescriptionTextField(Product product) =>
         EnsureVisibleWhenFocused(
             focusNode: _descriptionFocusNode,
             child: TextFormField(
                 focusNode: _descriptionFocusNode,
-                initialValue: widget.product == null ? '' : widget.product.description,
+                initialValue: product == null ? '' : product.description,
                 maxLines: 4,
                 onSaved: (String value) => _formData['description'] = value,
                 decoration: InputDecoration(
@@ -124,12 +122,12 @@ class _ProductEditPageState extends State<ProductEditPage>{
             ),
         );
 
-    EnsureVisibleWhenFocused _buildPriceTextField() =>
+    EnsureVisibleWhenFocused _buildPriceTextField(Product product) =>
         EnsureVisibleWhenFocused(
             focusNode: _priceFocusNode,
             child: TextFormField(
                 focusNode: _priceFocusNode,
-                initialValue: widget.product == null ? '' : widget.product.price.toString(),
+                initialValue: product == null ? '' : product.price.toString(),
                 keyboardType: TextInputType.number,
                 onSaved: (String value) => _formData['price'] = double.parse(value),
                 decoration: InputDecoration(
@@ -144,11 +142,11 @@ class _ProductEditPageState extends State<ProductEditPage>{
             ),
         );
 
-    void _submitForm(Function addProduct, Function updateProduct) {
+    void _submitForm(Function addProduct, Function updateProduct, [int selectedProductIndex]) {
         if (!_formKey.currentState.validate()) return;
         _formKey.currentState.save();
 
-        if (widget.product == null) {
+        if (selectedProductIndex == null) {
             addProduct(Product(
                 title: _formData['title'],
                 description: _formData['description'],
@@ -156,7 +154,7 @@ class _ProductEditPageState extends State<ProductEditPage>{
                 image: _formData['image'],
             ));
         } else {
-            updateProduct(widget.productIndex, Product(
+            updateProduct(selectedProductIndex, Product(
                 title: _formData['title'],
                 description: _formData['description'],
                 price: _formData['price'],

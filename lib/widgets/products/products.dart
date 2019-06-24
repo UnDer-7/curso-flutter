@@ -4,7 +4,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import './product_card.dart';
 import '../../models/product.dart';
-import '../../scoped_model/products.dart';
+import '../../scoped-model/products.dart';
 
 class Products extends StatelessWidget {
     @override
