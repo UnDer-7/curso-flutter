@@ -11,11 +11,10 @@ class Products extends StatelessWidget {
     ScopedModelDescendant build(BuildContext context) {
         return ScopedModelDescendant<ProductsModel>(
             builder: (BuildContext context, Widget child, ProductsModel model) {
-                return _buildProductList(model.products);
+                return _buildProductList(model.displayedProducts);
             }
         );
     }
-
 
     Widget _buildProductList(List<Product> products) {
         Widget productCard = Center(child: Text('No Products found!'));
