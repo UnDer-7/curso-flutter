@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+
+import '../scoped-model/main.dart';
+
 class AuthPage extends StatefulWidget {
     @override
     State<StatefulWidget> createState() => _AuthPage();
@@ -40,10 +44,14 @@ class _AuthPage extends State<AuthPage> {
                                         _buildPasswordTextField(),
                                         SizedBox(height: 10),
                                         _buildAcceptSwitch(),
-                                        RaisedButton(
-                                            textColor: Colors.white,
-                                            child: Text('LOGIN'),
-                                            onPressed: _submitForm,
+                                        ScopedModelDescendant<MainModel>(
+                                            builder: (BuildContext context, Widget child, MainModel model) {
+                                                return RaisedButton(
+                                                    textColor: Colors.white,
+                                                    child: Text('LOGIN'),
+                                                    onPressed: () => _submitForm(model.login)
+                                                );
+                                            },
                                         ),
                                     ],
                                 ),
@@ -101,12 +109,11 @@ class _AuthPage extends State<AuthPage> {
             onChanged: (bool value) => _formData['acceptTerms'] = value,
         );
 
-    void _submitForm() {
-//        if (!_formKey.currentState.validate() || !_formData['acceptTerms']) return;
+    void _submitForm(Function login) {
+        if (!_formKey.currentState.validate() || !_formData['acceptTerms']) return;
 
         _formKey.currentState.save();
-
-        print('Form Data: $_formData');
+        login(_formData['email'], _formData['password']);
         Navigator.pushReplacementNamed(context, '/products');
     }
 
