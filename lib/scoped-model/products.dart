@@ -1,26 +1,30 @@
-import 'package:scoped_model/scoped_model.dart';
 import '../models/product.dart';
+import './connected_products.dart';
 
-mixin ProductsModel on Model {
-    List<Product> _products = [];
-    int _selectedProductIndex;
+mixin ProductsModel on ConnectedProducts {
     bool _showFavorites = false;
 
-    void addProduct(Product product) {
-        _products.add(product);
-        _selectedProductIndex = null;
-        notifyListeners();
-    }
+    void updateProduct(String title,
+        String description,
+        String image,
+        double price,) {
+        final Product updatedProduct = Product(
+            title: title,
+            description: description,
+            image: image,
+            price: price,
+            userEmail: getSelectProduct.userEmail,
+            userID: getSelectProduct.userID,
+        );
 
-    void updateProduct(Product product) {
-        _products[_selectedProductIndex] = product;
-        _selectedProductIndex = null;
+        products[selectedProductIndex] = updatedProduct;
+        selectedProductIndex = null;
         notifyListeners();
     }
 
     void deleteProduct() {
-        _products.removeAt(_selectedProductIndex);
-        _selectedProductIndex = null;
+        products.removeAt(selectedProductIndex);
+        selectedProductIndex = null;
         notifyListeners();
     }
 
@@ -33,11 +37,13 @@ mixin ProductsModel on Model {
             description: getSelectProduct.description,
             price: getSelectProduct.price,
             image: getSelectProduct.image,
+            userEmail: getSelectProduct.userEmail,
+            userID: getSelectProduct.userID,
             isFavorite: newFavoriteStatus,
         );
 
-        _products[_selectedProductIndex] = updatedProduct;
-        _selectedProductIndex = null;
+        products[selectedProductIndex] = updatedProduct;
+        selectedProductIndex = null;
         notifyListeners();
     }
 
@@ -46,28 +52,28 @@ mixin ProductsModel on Model {
         notifyListeners();
     }
 
-    List<Product> get products {
-        return List.from(_products);
+    List<Product> get allProducts {
+        return List.from(products);
     }
 
     List<Product> get displayedProducts {
         if (_showFavorites) {
-            return _products
+            return products
                 .where((Product product) => product.isFavorite)
                 .toList();
         }
-        return List.from(_products);
+        return List.from(products);
     }
 
     int get getSelectProductIndex {
-        return _selectedProductIndex;
+        return selectedProductIndex;
     }
 
     Product get getSelectProduct {
-        if (_selectedProductIndex == null) {
+        if (selectedProductIndex == null) {
             return null;
         }
-        return _products[_selectedProductIndex];
+        return products[selectedProductIndex];
     }
 
     bool get displayFavoritesOnly {
@@ -75,7 +81,7 @@ mixin ProductsModel on Model {
     }
 
     set setSelectProductIndex(int index) {
-        _selectedProductIndex = index;
+        selectedProductIndex = index;
         notifyListeners();
     }
 }

@@ -22,6 +22,7 @@ class ProductCard extends StatelessWidget {
                     Image.asset(product.image),
                     _buildTitlePriceRow(),
                     AddressTag('Sobradinho II'),
+                    Text(product.userEmail),
                     _buildActionButtons(context),
                 ],
             ),
