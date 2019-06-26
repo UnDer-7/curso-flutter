@@ -8,7 +8,7 @@ import './pages/products_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
 import './models/product.dart';
-import './scoped-model/products.dart';
+import './scoped-model/main.dart';
 
 void main() {
 //    debugPaintSizeEnabled = true;
@@ -28,8 +28,8 @@ class _MyAppState extends State<MyApp> {
 
     @override
     ScopedModel build(BuildContext context) =>
-        ScopedModel<ProductsModel>(
-            model: ProductsModel(),
+        ScopedModel<MainModel>(
+            model: MainModel(),
             child: MaterialApp(
 //        debugShowMaterialGrid: true,
                 theme: ThemeData(

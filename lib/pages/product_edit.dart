@@ -4,7 +4,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../widgets/helpers/ensure-visible.dart';
 import '../models/product.dart';
-import '../scoped-model/products.dart';
+import '../scoped-model/main.dart';
 
 class ProductEditPage extends StatefulWidget {
     @override
@@ -26,8 +26,8 @@ class _ProductEditPageState extends State<ProductEditPage>{
     @override
     ScopedModelDescendant build(BuildContext context) {
 
-        return ScopedModelDescendant<ProductsModel>(
-            builder: (BuildContext context, Widget child, ProductsModel model) {
+        return ScopedModelDescendant<MainModel>(
+            builder: (BuildContext context, Widget child, MainModel model) {
                 final Widget pageContent = _buildPageContent(context, model.getSelectProduct);
 
                 return model.getSelectProductIndex == null ? pageContent :  Scaffold(
@@ -73,8 +73,8 @@ class _ProductEditPageState extends State<ProductEditPage>{
     }
 
     ScopedModelDescendant _buildSubmitButton() {
-        return ScopedModelDescendant<ProductsModel>(
-            builder: (BuildContext context, Widget child, ProductsModel model) {
+        return ScopedModelDescendant<MainModel>(
+            builder: (BuildContext context, Widget child, MainModel model) {
                 return RaisedButton(
                     child: Text('Save'),
                     onPressed: () => _submitForm(model.addProduct, model.updateProduct, model.getSelectProductIndex),
