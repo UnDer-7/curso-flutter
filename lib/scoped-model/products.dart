@@ -20,6 +20,22 @@ class ProductsModel extends Model {
         _selectedProductIndex = null;
     }
 
+    void toggleProductFavoriteStatus() {
+        final bool isCurrentlyFavorite = getSelectProduct.isFavorite;
+        final bool  newFavoriteStatus = !isCurrentlyFavorite;
+
+        final Product updatedProduct = Product(
+            title: getSelectProduct.title,
+            description: getSelectProduct.description,
+            price: getSelectProduct.price,
+            image: getSelectProduct.image,
+            isFavorite: newFavoriteStatus,
+        );
+
+        _products[_selectedProductIndex] = updatedProduct;
+        _selectedProductIndex = null;
+    }
+
     List<Product> get products {
         return List.from(_products);
     }
