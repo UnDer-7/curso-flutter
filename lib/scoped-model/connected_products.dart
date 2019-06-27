@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import '../models/user.dart';
 import '../models/product.dart';
 
-mixin ConnectedProducts on Model {
+mixin ConnectedProductsModel on Model {
     @protected
     List<Product> products = [];
 
@@ -29,7 +29,6 @@ mixin ConnectedProducts on Model {
             userID: authenticatedUser.id,
         );
         products.add(newProduct);
-        selectedProductIndex = null;
         notifyListeners();
     }
 }

@@ -1,7 +1,7 @@
 import '../models/product.dart';
 import './connected_products.dart';
 
-mixin ProductsModel on ConnectedProducts {
+mixin ProductsModel on ConnectedProductsModel {
     bool _showFavorites = false;
 
     void updateProduct(String title,
@@ -18,13 +18,11 @@ mixin ProductsModel on ConnectedProducts {
         );
 
         products[selectedProductIndex] = updatedProduct;
-        selectedProductIndex = null;
         notifyListeners();
     }
 
     void deleteProduct() {
         products.removeAt(selectedProductIndex);
-        selectedProductIndex = null;
         notifyListeners();
     }
 
@@ -43,7 +41,6 @@ mixin ProductsModel on ConnectedProducts {
         );
 
         products[selectedProductIndex] = updatedProduct;
-        selectedProductIndex = null;
         notifyListeners();
     }
 

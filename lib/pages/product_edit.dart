@@ -77,7 +77,7 @@ class _ProductEditPageState extends State<ProductEditPage>{
             builder: (BuildContext context, Widget child, MainModel model) {
                 return RaisedButton(
                     child: Text('Save'),
-                    onPressed: () => _submitForm(model.addProduct, model.updateProduct, model.getSelectProductIndex),
+                    onPressed: () => _submitForm(model.addProduct, model.updateProduct, model, model.getSelectProductIndex),
                 );
             },
         );
@@ -142,7 +142,7 @@ class _ProductEditPageState extends State<ProductEditPage>{
             ),
         );
 
-    void _submitForm(Function addProduct, Function updateProduct, [int selectedProductIndex]) {
+    void _submitForm(Function addProduct, Function updateProduct, MainModel model, [int selectedProductIndex]) {
         if (!_formKey.currentState.validate()) return;
         _formKey.currentState.save();
 
@@ -162,6 +162,6 @@ class _ProductEditPageState extends State<ProductEditPage>{
             );
         }
 
-        Navigator.pushReplacementNamed(context, '/products');
+        Navigator.pushReplacementNamed(context, '/products').then((_) => model.setSelectProductIndex = null);
     }
 }
