@@ -51,7 +51,7 @@ class ProductListPage extends StatelessWidget {
                 model.setSelectProductIndex = index;
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => ProductEditPage(),
-                ));
+                )).then((_) => model.setSelectProductIndex = null);
             },
         );
 }
