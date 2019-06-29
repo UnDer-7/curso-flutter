@@ -29,6 +29,8 @@ mixin ConnectedProductsModel on Model {
             'description' : description,
             'image' : 'https://harald.com.br/wp-content/uploads/2018/02/1Tempera_1000x1000.jpg',
             'price' : price,
+            'userEmail' : authenticatedUser.email,
+            'userID' : authenticatedUser.id,
         };
 
         http.post(
