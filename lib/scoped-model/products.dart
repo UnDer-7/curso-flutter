@@ -31,6 +31,7 @@ mixin ProductsModel on ConnectedProductsModel {
     }
 
     void fetchProducts() {
+        this.isLoadingScope = true;
         http
             .get('https://flutter-products-1c635.firebaseio.com/products.json')
             .then((http.Response response) {
@@ -51,6 +52,7 @@ mixin ProductsModel on ConnectedProductsModel {
             });
 
             this.products = fetchedProductList;
+            this.isLoadingScope = false;
             notifyListeners();
         });
     }

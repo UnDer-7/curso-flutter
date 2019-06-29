@@ -17,13 +17,16 @@ mixin ConnectedProductsModel on Model {
     @protected
     User authenticatedUser;
 
+    @protected
+    bool isLoadingScope = false;
+
     void addProduct(
         String title,
         String description,
         String image,
         double price,
         ) {
-
+        isLoadingScope = true;
         final Map<String, dynamic> productsData = {
             'title' : title,
             'description' : description,
@@ -49,6 +52,7 @@ mixin ConnectedProductsModel on Model {
                     userID: authenticatedUser.id,
                 );
                 products.add(newProduct);
+                isLoadingScope = false;
                 notifyListeners();
         });
     }
