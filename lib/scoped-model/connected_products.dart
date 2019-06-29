@@ -33,17 +33,21 @@ mixin ConnectedProductsModel on Model {
 
         http.post(
             'https://flutter-products-1c635.firebaseio.com/products.json',
-            body: json.encode(productsData));
-
-        final Product newProduct = Product(
-            title: title,
-            description: description,
-            image: image,
-            price: price,
-            userEmail: authenticatedUser.email,
-            userID: authenticatedUser.id,
-        );
-        products.add(newProduct);
-        notifyListeners();
+            body: json.encode(productsData))
+            .then((http.Response response) {
+                final Map<String, dynamic> responseData = json.decode(response.body);
+                print(responseData);
+                final Product newProduct = Product(
+                    id: responseData['name'],
+                    title: title,
+                    description: description,
+                    image: image,
+                    price: price,
+                    userEmail: authenticatedUser.email,
+                    userID: authenticatedUser.id,
+                );
+                products.add(newProduct);
+                notifyListeners();
+        });
     }
 }
