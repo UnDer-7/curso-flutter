@@ -27,9 +27,11 @@ class _MyAppState extends State<MyApp> {
     List<Product> _products = [];
 
     @override
-    ScopedModel build(BuildContext context) =>
-        ScopedModel<MainModel>(
-            model: MainModel(),
+    ScopedModel build(BuildContext context) {
+        final MainModel model = MainModel();
+
+        return ScopedModel<MainModel>(
+            model: model,
             child: MaterialApp(
 //        debugShowMaterialGrid: true,
                 theme: ThemeData(
@@ -40,7 +42,7 @@ class _MyAppState extends State<MyApp> {
 //        home: AuthPage(),
                 routes: {
                     '/': (BuildContext context) => AuthPage(),
-                    '/products': (BuildContext context) => ProductsPage(),
+                    '/products': (BuildContext context) => ProductsPage(model),
                     '/admin': (BuildContext context) => ProductAdminPage(),
                 },
                 onGenerateRoute: (RouteSettings settings) {
@@ -51,7 +53,8 @@ class _MyAppState extends State<MyApp> {
                     if (pathElements[1] == 'product') {
                         final int index = int.parse(pathElements[2]);
                         return MaterialPageRoute<bool>(
-                            builder: (BuildContext context) => ProductPage(index),
+                            builder: (BuildContext context) =>
+                                ProductPage(index),
                         );
                     }
 
@@ -59,11 +62,11 @@ class _MyAppState extends State<MyApp> {
                 },
                 onUnknownRoute: (RouteSettings settings) {
                     return MaterialPageRoute(
-                        builder: (BuildContext context) => ProductsPage(),
+                        builder: (BuildContext context) => ProductsPage(model),
                     );
                 },
             ),
         );
-
+    }
 
 }

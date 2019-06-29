@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
 import '../models/product.dart';
 import './connected_products.dart';
 
@@ -24,6 +28,14 @@ mixin ProductsModel on ConnectedProductsModel {
     void deleteProduct() {
         products.removeAt(selectedProductIndex);
         notifyListeners();
+    }
+
+    void fetchProducts() {
+        http
+            .get('https://flutter-products-1c635.firebaseio.com/products.json')
+            .then((http.Response response) {
+                print(json.decode(response.body));
+        });
     }
 
     void toggleProductFavoriteStatus() {
