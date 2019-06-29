@@ -16,7 +16,7 @@ class _AuthPage extends State<AuthPage> {
         'acceptTerms': false,
     };
 
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     @override
     Widget build(BuildContext context) {
