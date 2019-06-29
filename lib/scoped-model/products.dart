@@ -32,11 +32,18 @@ mixin ProductsModel on ConnectedProductsModel {
 
     void fetchProducts() {
         this.isLoadingScope = true;
+        notifyListeners();
         http
             .get('https://flutter-products-1c635.firebaseio.com/products.json')
             .then((http.Response response) {
             final Map<String, dynamic> productsListData = json.decode(response.body);
             final List<Product> fetchedProductList = [];
+
+            if (productsListData == null) {
+                this.isLoadingScope = false;
+                notifyListeners();
+                return;
+            }
 
             productsListData.forEach((String productId, dynamic productData) {
                 final Product product = Product(

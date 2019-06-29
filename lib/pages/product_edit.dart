@@ -75,6 +75,7 @@ class _ProductEditPageState extends State<ProductEditPage>{
     ScopedModelDescendant _buildSubmitButton() {
         return ScopedModelDescendant<MainModel>(
             builder: (BuildContext context, Widget child, MainModel model) {
+                if (model.isLoading) return Center(child: CircularProgressIndicator());
                 return RaisedButton(
                     child: Text('Save'),
                     onPressed: () => _submitForm(model.addProduct, model.updateProduct, model, model.getSelectProductIndex),
@@ -152,7 +153,7 @@ class _ProductEditPageState extends State<ProductEditPage>{
                 _formData['description'],
                 _formData['image'],
                 _formData['price'],
-            );
+            ).then((_) => Navigator.pushReplacementNamed(context, '/products').then((_) => model.setSelectProductIndex = null));
         } else {
             updateProduct(
                 _formData['title'],
@@ -161,7 +162,5 @@ class _ProductEditPageState extends State<ProductEditPage>{
                 _formData['price'],
             );
         }
-
-        Navigator.pushReplacementNamed(context, '/products').then((_) => model.setSelectProductIndex = null);
     }
 }

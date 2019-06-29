@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:scoped_model/scoped_model.dart';
 import 'package:meta/meta.dart';
@@ -20,13 +21,14 @@ mixin ConnectedProductsModel on Model {
     @protected
     bool isLoadingScope = false;
 
-    void addProduct(
+    Future<Null> addProduct(
         String title,
         String description,
         String image,
         double price,
         ) {
         isLoadingScope = true;
+        notifyListeners();
         final Map<String, dynamic> productsData = {
             'title' : title,
             'description' : description,
@@ -36,7 +38,7 @@ mixin ConnectedProductsModel on Model {
             'userID' : authenticatedUser.id,
         };
 
-        http.post(
+        return http.post(
             'https://flutter-products-1c635.firebaseio.com/products.json',
             body: json.encode(productsData))
             .then((http.Response response) {
