@@ -31,7 +31,7 @@ class ProductPage extends StatelessWidget {
                         ),
                         body: Column(
                             children: <Widget>[
-                                Image.asset(products.image),
+                                Image.network(products.image),
                                 Container(
                                     padding: EdgeInsets.all(10),
                                     child: TitleDefault(products.title),
