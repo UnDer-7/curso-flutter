@@ -59,10 +59,10 @@ mixin ProductsModel on ConnectedProductsModel {
         });
     }
 
-    void fetchProducts() {
+    Future<Null> fetchProducts() {
         this.isLoadingScope = true;
         notifyListeners();
-        http
+        return http
             .get('https://flutter-products-1c635.firebaseio.com/products.json')
             .then((http.Response response) {
             final Map<String, dynamic> productsListData = json.decode(response.body);

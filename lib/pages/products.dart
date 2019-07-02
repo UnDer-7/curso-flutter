@@ -49,9 +49,17 @@ class _ProductsPageState extends State<ProductsPage>{
     Widget _buildProductsList() {
         return ScopedModelDescendant<MainModel>(
             builder: (BuildContext context, Widget child, MainModel model) {
-                if (model.displayedProducts.length > 0 && !model.isLoading) return Products();
-                if (model.isLoading) return Center(child: CircularProgressIndicator());
-                return Center(child: Text('No Products found!'));
+                Widget content = Center(child: Text('No Products found!'));
+                if (model.displayedProducts.length > 0 && !model.isLoading) {
+                    content = Products();
+                }
+                if (model.isLoading) {
+                    content = Center(child: CircularProgressIndicator());
+                }
+                return RefreshIndicator(
+                    onRefresh: model.fetchProducts,
+                    child: content,
+                );
             },
         );
     }
